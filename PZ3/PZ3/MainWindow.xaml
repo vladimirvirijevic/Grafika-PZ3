@@ -5,68 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PZ3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="679.5" Width="750.5">
+        Title="MainWindow" Height="600" Width="852.5">
     <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label x:Name="label_Copy" Content="Camera: Offset X" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                <Slider Height = "23" Minimum="-800" HorizontalAlignment = "Left" x:Name = "slider1_Copy2" VerticalAlignment = "Top" Width = "217" Maximum = "400" Value = "{Binding OffsetX, ElementName=translateCamera}" />
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <Label x:Name="label_y" Content="Camera: Offset Y" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                <Slider Height = "23" HorizontalAlignment = "Left"  
-        	            x:Name = "slider1_Copy3" 
-        	            VerticalAlignment = "Top" Width = "217"  
-        	            Maximum = "800" 
-                        Minimum="-800"
-        	            Value = "{Binding OffsetY, ElementName=translateCamera}" /> 
-            </StackPanel>
-            <StackPanel Grid.Column="2">
-                <Label x:Name="label_z" Content="Camera: Offset Z" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                <Slider Height = "23" HorizontalAlignment = "Left"  
-        	            x:Name = "slider1_Copy4" 
-        	            VerticalAlignment = "Top" Width = "217"  
-        	            Maximum = "800" 
-                        Minimum="-800"
-        	            Value = "{Binding OffsetZ, ElementName=translateCamera}" /> 
-            </StackPanel>
-        </Grid>
-        <Viewport3D>
+        <Viewport3D ClipToBounds="True" MouseLeftButtonDown="viewport1_MouseLeftButtonDown" Name="viewport1"
+                    MouseLeftButtonUp="viewport1_MouseLeftButtonUp" MouseMove="viewport1_MouseMove"
+                    MouseWheel="viewport1_MouseWheel">
             <Viewport3D.Camera>
-                <PerspectiveCamera Position = "200, 200, 800" LookDirection = "0,0,-1" FieldOfView = "65" UpDirection = "0,1,0" >
-                    <PerspectiveCamera.Transform>
-                        <TranslateTransform3D x:Name="translateCamera" OffsetX="0" OffsetY="0" OffsetZ="0"/>
-                    </PerspectiveCamera.Transform>
-                </PerspectiveCamera>
-
+                <PerspectiveCamera Position="200,150,1500" LookDirection="0,0,-2" />
             </Viewport3D.Camera>
-            
+            <Viewport3D.Children>
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <AmbientLight />
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <ModelVisual3D x:Name="map">
+                    <ModelVisual3D.Content>
+                        <Model3DGroup x:Name="Cube">
+                            <GeometryModel3D>
+                                <GeometryModel3D.Material>
+                                    <DiffuseMaterial>
+                                        <DiffuseMaterial.Brush>
+                                            <ImageBrush ImageSource="Images/map.jpg" />
+                                        </DiffuseMaterial.Brush>
+                                    </DiffuseMaterial>
+                                </GeometryModel3D.Material>
+                                <GeometryModel3D.Geometry>
+                                    <MeshGeometry3D Positions="0,0,400 400,0,400 400,400,400 0,400,400"
+                                TextureCoordinates="0,1 1,1 1,0 0,0"
+                                TriangleIndices="0 1 2 0 2 3"/>
+                                </GeometryModel3D.Geometry>
+                                <GeometryModel3D.Transform>
+                                    <Transform3DGroup>
+                                        <TranslateTransform3D x:Name="translacija" OffsetX="0" OffsetY="0" OffsetZ="0"/>
+                                        <ScaleTransform3D x:Name="skaliranje" ScaleX="1" ScaleY="1" ScaleZ="1"/>
 
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <Model3DGroup>
-                        <AmbientLight Color = "Bisque" />
+                                        <RotateTransform3D>
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D x:Name="rotate" Axis="-2 0 0"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D>
 
-                        <GeometryModel3D>
-                            <GeometryModel3D.Geometry>
-                                <MeshGeometry3D Positions = "0,0,0 0,400,0 400,0,0 400,400,0" TriangleIndices = "0,2,1 1,2,3"/>
-                            </GeometryModel3D.Geometry>
+                                    </Transform3DGroup>
 
-                            <GeometryModel3D.Material>
-                                <DiffuseMaterial Brush = "Bisque" />
-                            </GeometryModel3D.Material>
-                        </GeometryModel3D>
-                    </Model3DGroup>
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
+
+                                </GeometryModel3D.Transform>
+                            </GeometryModel3D>
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D.Children>
         </Viewport3D>
-    
-        
+        <Slider Height="23" HorizontalAlignment="Left" 
+                Margin="12,12,0,0" Name="slider1"
+                VerticalAlignment="Top" Width="187" 
+                Maximum="90"
+                Value="{Binding ElementName=rotate, Path=Angle}" />
+
+
+
     </Grid>
 
 </Window>
